@@ -1,11 +1,11 @@
 # Join
 
-Join is a web-based task and contact management application created as a group project during the web development training at [Developer Akademie](https://developerakademie.com/). Authenticated users can manage tasks on a Kanban board and maintain a shared contact directory.
+Join is a web-based task and contact management application created as a group project during the web development training at [Developer Akademie GmbH](https://developerakademie.com/). Authenticated users can manage tasks on a Kanban board and maintain a shared contact directory.
 
 <details>
 <summary>Deutsche Version anzeigen</summary>
 
-Join ist eine webbasierte Aufgaben- und Kontaktverwaltung, die im Rahmen der Weiterbildung bei der [Developer Akademie](https://developerakademie.com/) als Gruppenprojekt erstellt wurde. Authentifizierte Benutzerinnen und Benutzer können Aufgaben auf einem Kanban-Board verwalten und ein gemeinsames Kontaktverzeichnis pflegen.
+Join ist eine webbasierte Aufgaben- und Kontaktverwaltung, die im Rahmen der Weiterbildung bei der [Developer Akademie GmbH](https://developerakademie.com/) als Gruppenprojekt erstellt wurde. Authentifizierte Benutzerinnen und Benutzer können Aufgaben auf einem Kanban-Board verwalten und ein gemeinsames Kontaktverzeichnis pflegen.
 
 </details>
 
