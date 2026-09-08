@@ -1,108 +1,327 @@
-# JoinApp
+# Join
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.17.
+Join is a web-based task and contact management application. Authenticated users can manage tasks on a Kanban board and maintain a shared contact directory.
 
-## Projektstruktur & Architektur
+<details>
+<summary>Deutsche Version anzeigen</summary>
 
-Dieses Projekt nutzt eine modulare und skalierbare Ordnerstruktur, die speziell auf eine saubere Trennung von Logik, Layout und Styling ausgelegt ist.
+Join ist eine webbasierte Aufgaben- und Kontaktverwaltung. Authentifizierte Benutzerinnen und Benutzer können Aufgaben auf einem Kanban-Board verwalten und ein gemeinsames Kontaktverzeichnis pflegen.
 
-```BASE STRUCTURE
-join-app/
-├── public/                 // Statische Dateien, die 1:1 an den Browser ausgeliefert werden
-│   └── assets/
-│       ├── fonts/          // Lokale Schriftarten (z.B. Inter)
-│       ├── icons/          // SVG-Icons, Logos oder Icon-Sprites
-│       └── images/         // Allgemeine Grafiken und Bilder
-│
-├── src/                    // Der eigentliche Quellcode der Anwendung
-│   ├── app/                // Der Kern der Angular-App
-│   │   ├── layout/         // Globale, seitenübergreifende Elemente (Header, Sidebar, Footer)
-│   │   ├── pages/          // Die Haupt-Ansichten/Routen (sog. "Smart Components")
-│   │   ├── sections/       // In sich geschlossene Inhaltsblöcke für Pages (z.B. Task-Formular)
-│   │   ├── shared/         // Wiederverwendbare UI-Elemente (Buttons, Inputs, Modals)
-│   │   ├── app.config.ts   // Globale Konfiguration (Provider, Routing-Setup)
-│   │   ├── app.routes.ts   // Definition, welche URL zu welcher Page-Component führt
-│   │   └── app.ts/.html    // Die Wurzel-Komponente (Root)
-│   │
-│   ├── environments/       // Konfigurationsvariablen (z.B. Supabase-Keys) für Dev und Live
-│   │
-│   ├── styles/             // Modulare, globale SCSS-Architektur
-│   │   ├── abstracts/      // SCSS-Helfer (Variablen, Mixins, Funktionen - kein CSS Output)
-│   │   ├── base/           // Grundlegende HTML-Element-Stylings und CSS-Resets
-│   │   └── utils/          // Hilfsklassen (Utility Classes wie .flex-center, .mt-2)
-│   │
-│   ├── index.html          // Die einzige HTML-Datei (Einstiegspunkt in den Browser)
-│   ├── main.ts             // Startschuss (Entry Point) für die Angular-App
-│   └── styles.scss         // Haupt-Styling-Datei (importiert die Dateien aus dem styles/-Ordner)
-│
-├── .editorconfig           // Erzwingt gleiche Editor-Einstellungen im ganzen Team
-├── .gitignore              // Sagt Git, welche Dateien NICHT hochgeladen werden sollen
-├── .prettierrc             // Regeln für den automatischen Code-Formatter (Prettier)
-├── angular.json            // Das Herzstück der CLI (Build-Configs, Settings wie skipTests & scss)
-├── package.json            // Liste aller installierten npm-Pakete und Terminal-Befehle
-└── tsconfig.*.json         // Strikte Regeln und Konfigurationen für den TypeScript-Compiler
+</details>
+
+## Features
+
+- User registration, login, logout, and protected areas
+- Summary dashboard with an overview of tasks
+- Create, edit, delete, and manage tasks by status
+- Kanban board with task statuses and task details
+- Create, edit, view, and delete contacts
+- Real-time synchronization of tasks and contacts through Supabase Realtime
+- Help, privacy policy, and legal notice pages
+- Responsive interface for desktop and mobile devices
+
+<details>
+<summary>Deutsche Version anzeigen</summary>
+
+## Funktionen
+
+- Registrierung, Login, Logout und geschützte Bereiche
+- Zusammenfassung mit Überblick über Aufgaben
+- Aufgaben erstellen, bearbeiten, löschen und nach Status verwalten
+- Kanban-Board mit Aufgabenstatus und Aufgabendetails
+- Kontakte anlegen, bearbeiten, anzeigen und löschen
+- Echtzeit-Synchronisierung von Aufgaben und Kontakten über Supabase Realtime
+- Hilfebereich, Datenschutz und Impressum
+- Responsive Oberfläche für Desktop und mobile Geräte
+
+</details>
+
+## Technology Stack
+
+### Application
+
+- [Angular](https://angular.dev/) 21 as the frontend framework
+- TypeScript 5.9 for application logic
+- Angular Router for navigation and protected routes
+- Angular Reactive Forms for forms and validation
+- Angular Signals for local reactive state
+- SCSS for global and component-specific styling
+- RxJS for reactive programming within the Angular ecosystem
+
+### Backend and data
+
+- [Supabase](https://supabase.com/) as the backend-as-a-service platform
+- Supabase Auth for registration and authentication
+- Supabase Database for tasks and contacts
+- Supabase Realtime for live data updates
+
+### Development and quality
+
+- Angular CLI 21.2.17
+- npm as the package manager
+- Vitest and JSDOM for unit tests
+- Prettier for consistent formatting
+
+<details>
+<summary>Deutsche Version anzeigen</summary>
+
+## Verwendete Technologien
+
+### Anwendung
+
+- [Angular](https://angular.dev/) 21 als Frontend-Framework
+- TypeScript 5.9 für die Anwendungslogik
+- Angular Router für Navigation und geschützte Routen
+- Angular Reactive Forms für Formulare und Validierung
+- Angular Signals für lokalen reaktiven Zustand
+- SCSS für globale und komponentenbezogene Styles
+- RxJS für reaktive Programmierung innerhalb des Angular-Ökosystems
+
+### Backend und Daten
+
+- [Supabase](https://supabase.com/) als Backend-as-a-Service
+- Supabase Auth für Registrierung und Anmeldung
+- Supabase Database für Aufgaben und Kontakte
+- Supabase Realtime für Live-Updates der Daten
+
+### Entwicklung und Qualität
+
+- Angular CLI 21.2.17
+- npm als Paketmanager
+- Vitest und JSDOM für Unit-Tests
+- Prettier für einheitliche Formatierung
+
+</details>
+
+## Prerequisites
+
+Install the following before starting:
+
+- [Node.js](https://nodejs.org/) in a current LTS version
+- npm 11.9.0 or a compatible npm version
+- [Git](https://git-scm.com/)
+
+The application uses a configured Supabase project. The connection settings are stored in `src/environments/environment.ts`. To use your own Supabase project, replace the project URL and public publishable key there. Never put private keys in the frontend or commit them to the repository.
+
+<details>
+<summary>Deutsche Version anzeigen</summary>
+
+## Voraussetzungen
+
+Installiere vor dem Start:
+
+- [Node.js](https://nodejs.org/) in einer aktuellen LTS-Version
+- npm 11.9.0 oder eine kompatible npm-Version
+- [Git](https://git-scm.com/)
+
+Die Anwendung verwendet ein bereits konfiguriertes Supabase-Projekt. Die Verbindungsdaten liegen in `src/environments/environment.ts`. Falls eine eigene Supabase-Instanz verwendet werden soll, müssen dort die eigene Projekt-URL und der öffentliche Publishable Key eingetragen werden. Private Schlüssel dürfen nicht in das Frontend oder in das Repository gelangen.
+
+</details>
+
+## Installation and start
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/JermaineJeromeDev/Join.git
+cd join-app
 ```
 
-# 📜 Team-Manifest: JoinApp
+### 2. Install dependencies
 
-Dieses Manifest definiert unsere gemeinsamen Spielregeln für die Entwicklung. Es hilft uns, effizient zusammenzuarbeiten, Code-Konflikte zu vermeiden und die Qualität unseres Projekts hoch zu halten.
+```bash
+npm install
+```
 
-## 🤝 1. Kommunikation & Stand-Up
+### 3. Start the development server
 
-- **Daily Stand-Up:** Wir treffen uns täglich um **15:00 Uhr**.
-- **Agenda für das Stand-Up:** Jeder beantwortet kurz und knapp drei Fragen:
-  1. Was habe ich seit dem letzten Stand-Up geschafft?
-  2. Was plane ich bis zum nächsten Stand-Up?
-  3. Wo hänge ich fest oder brauche Hilfe (Blocker)?
-- **Asynchrone Kommunikation:** Außerhalb des Stand-Ups kommunizieren wir proaktiv im Chat. Wenn jemand feststeckt, wird umgehend im Team nachgefragt, anstatt stundenlang allein nach einem Fehler zu suchen. Wir respektieren dabei individuelle Arbeits- und Schichtpläne.
+```bash
+npm start
+```
 
-## 🌿 2. Branching-Strategie (Git)
+Angular starts with the development configuration and normally opens the application at [http://localhost:4200](http://localhost:4200). If the browser does not open automatically, visit the address manually.
 
-Wir arbeiten **niemals** direkt auf dem `main`-Branch!
+### 4. Use the application
 
-- Für jede neue Aufgabe oder jedes Feature erstellen wir einen eigenen Branch ausgehend vom aktuellsten `main`.
-- **Namenskonventionen für Branches:**
-  - `feature/name-des-features` (z. B. `feature/login-form`)
-  - `fix/name-des-bugs` (z. B. `fix/header-alignment`)
-  - `chore/setup-thema` (z. B. `chore/angular-config`)
+Register a new account or sign in with an existing account to access protected features such as the Summary, Board, tasks, and contacts.
 
-## 💾 3. Commit-Nachrichten
+<details>
+<summary>Deutsche Version anzeigen</summary>
 
-Wir nutzen _Conventional Commits_, damit unsere Git-Historie lesbar und nachvollziehbar bleibt. Alle Commits werden im Präsens und auf Englisch geschrieben.
+## Installation und Start
 
-- `feat:` für neue Funktionen (z. B. `feat: add user authentication`)
-- `fix:` für Fehlerbehebungen (z. B. `fix: resolve routing issue on main page`)
-- `chore:` für Konfigurationen und Setup (z. B. `chore: update angular environment variables`)
-- `style:` für reine Optik-Anpassungen im SCSS ohne Logik-Änderung
-- `refactor:` für Code-Verbesserungen, die weder Features hinzufügen noch Bugs fixen
+### 1. Repository klonen
 
-_Tipp: Commits sollten kleine, logische Einheiten sein. Lieber öfter kleine Commits machen als einen riesigen am Ende des Tages!_
+```bash
+git clone https://github.com/miloo-p/join-app.git
+cd join-app
+```
 
-## 🔀 4. Pull Requests (PRs) & Merges
+### 2. Abhängigkeiten installieren
 
-- **Vier-Augen-Prinzip:** Niemand mergt seinen eigenen Code in den `main`-Branch!
-- Sobald ein Feature fertig ist, wird ein Pull Request (PR) erstellt.
-- Ein anderes Teammitglied schaut sich den Code kurz an (Code Review) und gibt ihn frei.
-- **Vor dem PR:** Der Entwickler stellt sicher, dass sein lokaler Branch auf dem neuesten Stand ist (`git pull origin main` in den eigenen Branch mergen und Konflikte lokal lösen), bevor der PR erstellt wird.
+```bash
+npm install
+```
 
-## 🏗️ 5. Code & Architektur
+### 3. Entwicklungsserver starten
 
-- Wir halten uns an die vereinbarte Angular-Ordnerstruktur (`pages`, `shared`, `sections`).
-- **Environment-Variablen:** Sensible Daten (wie Supabase API-Keys) werden nur in den `environment.ts` Dateien gepflegt und sauber über Angular-Services abgerufen.
-- **Sauberer Code:** Bevor ein PR erstellt wird, räumen wir unseren Code auf (keine unnötigen `console.log()` mehr, korrekte Einrückungen, ungenutzte Imports entfernen).
-- **Automatisches Formatieren:** Wir nutzen _Prettier_. Bitte stelle in deinem Code-Editor (z.B. VS Code) ein, dass Dokumente beim Speichern automatisch formatiert werden ("Format on Save"). Das verhindert unnötige Git-Konflikte durch verschiedene Einrückungen.
+```bash
+npm start
+```
 
-## 🙋‍♂️ 6. Fehlerkultur & Bei Unsicherheiten (Die 15-Minuten-Regel)
+Angular startet mit der Development-Konfiguration und öffnet die Anwendung normalerweise automatisch unter [http://localhost:4200](http://localhost:4200). Falls der Browser nicht automatisch geöffnet wird, rufe die Adresse manuell auf.
 
-- **Fragen ist ausdrücklich erwünscht:** Wir arbeiten als Team zusammen. Wenn jemand bei einem Konzept, einer Fehlermeldung oder einer bestimmten Architektur-Entscheidung unsicher ist, wird proaktiv nachgefragt.
-- **Timeboxing:** Bevor wir uns stundenlang frustrieren, gilt die 15-Minuten-Regel. Wer länger als 15 bis 30 Minuten an einem Bug festhängt, ohne erkennbaren Fortschritt zu machen, bittet das Team um Hilfe. Oft sieht ein zweites Paar Augen (oder ein kurzes Screen-Sharing) den fehlenden Buchstaben oder Denkfehler in Sekunden.
-- **Keine falsche Scheu:** Es gibt keine dummen Fragen. Lieber einmal zu viel nachgefragt und gemeinsam eine Lösung gefunden, als Code zu pushen, bei dem man sich unwohl fühlt.
+### 4. Anwendung verwenden
 
-## 📋 7. Ticket-Management & Workflow (GitHub Projects)
+Für geschützte Funktionen zuerst registrieren oder mit einem bestehenden Benutzerkonto anmelden. Danach stehen unter anderem Summary, Board, Aufgaben und Kontakte zur Verfügung.
 
-Wir nutzen GitHub Projects zur Aufgabenverwaltung. Um den Überblick zu behalten und Doppelarbeit zu vermeiden, halten wir uns strikt an folgenden Ablauf:
+</details>
 
-- **Von der Idee zum Draft:** Alle Aufgaben werden nach gemeinsamer Absprache im Board zunächst als _Drafts_ (Entwürfe) angelegt und der entsprechenden Person zugewiesen.
-- **Draft to Issue:** Bevor jemand aktiv an einem Draft zu arbeiten beginnt, **muss** dieser in ein echtes _Issue_ umgewandelt werden. Erst dann startet die eigentliche Entwicklung.
-- **Ein Ticket, ein Entwickler:** Niemand arbeitet an einem Issue, das ihm nicht offiziell im Board zugewiesen ist.
-- **Automatisches Schließen:** Um das Board sauber zu halten, schließen wir Issues direkt über die Commit-Nachricht des finalen Commits (durch Anhängen von z.B. `closes #12` oder `closed #12`). Das Issue wandert dadurch automatisch auf "Done".
+## Available commands
+
+| Command                            | Purpose                                                  |
+| ---------------------------------- | -------------------------------------------------------- |
+| `npm start`                        | Start the development server and open the application    |
+| `npm run build`                    | Create a production build                                |
+| `npm run watch`                    | Rebuild the development version automatically on changes |
+| `npm test`                         | Run unit tests                                           |
+| `npx ng generate component <name>` | Generate a new Angular component                         |
+
+<details>
+<summary>Deutsche Version anzeigen</summary>
+
+## Nützliche Befehle
+
+| Befehl                             | Zweck                                                      |
+| ---------------------------------- | ---------------------------------------------------------- |
+| `npm start`                        | Entwicklungsserver starten und die Anwendung öffnen        |
+| `npm run build`                    | Produktions-Build erstellen                                |
+| `npm run watch`                    | Development-Build bei Änderungen automatisch neu erstellen |
+| `npm test`                         | Unit-Tests starten                                         |
+| `npx ng generate component <name>` | Neue Angular-Komponente erzeugen                           |
+
+</details>
+
+## Project structure
+
+```text
+join-app/
+├── public/assets/              Static images, icons, and fonts
+├── src/
+│   ├── app/
+│   │   ├── layout/             Shared elements such as the header and sidebar
+│   │   ├── pages/              Login, Summary, Board, contacts, and task pages
+│   │   ├── shared/             Reusable components, services, and interfaces
+│   │   ├── app.config.ts       Global Angular configuration
+│   │   └── app.routes.ts       Routes and authentication guard
+│   ├── environments/           Environment and Supabase configuration
+│   ├── styles/                 Global SCSS architecture
+│   ├── main.ts                 Application entry point
+│   └── styles.scss             Global style entry point
+├── angular.json                Angular CLI configuration
+├── package.json                Dependencies and npm scripts
+└── tsconfig*.json              TypeScript configuration
+```
+
+<details>
+<summary>Deutsche Version anzeigen</summary>
+
+## Projektstruktur
+
+```text
+join-app/
+├── public/assets/              Statische Bilder, Icons und Fonts
+├── src/
+│   ├── app/
+│   │   ├── layout/             Globale Elemente wie Header und Sidebar
+│   │   ├── pages/              Seiten für Login, Summary, Board, Kontakte und Aufgaben
+│   │   ├── shared/              Wiederverwendbare Komponenten, Services und Interfaces
+│   │   ├── app.config.ts        Globale Angular-Konfiguration
+│   │   └── app.routes.ts        Routen und Authentifizierungs-Guard
+│   ├── environments/            Umgebungs- und Supabase-Konfiguration
+│   ├── styles/                  Globale SCSS-Architektur
+│   ├── main.ts                  Einstiegspunkt der Anwendung
+│   └── styles.scss              Globaler Style-Einstiegspunkt
+├── angular.json                 Angular-CLI-Konfiguration
+├── package.json                 Abhängigkeiten und npm-Skripte
+└── tsconfig*.json               TypeScript-Konfiguration
+```
+
+</details>
+
+## Routes
+
+| Route             | Purpose         | Access        |
+| ----------------- | --------------- | ------------- |
+| `/login`          | Sign in         | Public        |
+| `/sign-up`        | Register        | Public        |
+| `/`               | Summary         | Authenticated |
+| `/board`          | Kanban board    | Authenticated |
+| `/add-task`       | Create a task   | Authenticated |
+| `/contacts`       | Manage contacts | Authenticated |
+| `/help`           | Help            | Public        |
+| `/privacy-policy` | Privacy policy  | Public        |
+| `/legal-notice`   | Legal notice    | Public        |
+
+<details>
+<summary>Deutsche Version anzeigen</summary>
+
+## Routen
+
+| Route             | Zweck              | Zugriff         |
+| ----------------- | ------------------ | --------------- |
+| `/login`          | Anmeldung          | Öffentlich      |
+| `/sign-up`        | Registrierung      | Öffentlich      |
+| `/`               | Summary            | Authentifiziert |
+| `/board`          | Kanban-Board       | Authentifiziert |
+| `/add-task`       | Aufgabe erstellen  | Authentifiziert |
+| `/contacts`       | Kontakte verwalten | Authentifiziert |
+| `/help`           | Hilfe              | Öffentlich      |
+| `/privacy-policy` | Datenschutz        | Öffentlich      |
+| `/legal-notice`   | Impressum          | Öffentlich      |
+
+</details>
+
+## Build
+
+Create a production build with:
+
+```bash
+npm run build
+```
+
+The generated files are placed in Angular's default `dist/` directory and can be served by a web server.
+
+<details>
+<summary>Deutsche Version anzeigen</summary>
+
+## Build
+
+Für einen Produktions-Build:
+
+```bash
+npm run build
+```
+
+Die fertigen Dateien werden im Angular-Standardverzeichnis `dist/` abgelegt und können anschließend über einen Webserver bereitgestellt werden.
+
+</details>
+
+## Contributing
+
+- Develop changes in a dedicated feature or fix branch.
+- Run `npm test` and `npm run build` before opening a pull request.
+- Never commit credentials or private backend keys.
+- Follow the existing Angular, TypeScript, and SCSS conventions.
+
+<details>
+<summary>Deutsche Version anzeigen</summary>
+
+## Hinweise zur Mitarbeit
+
+- Änderungen bitte in einem eigenen Feature- oder Fix-Branch entwickeln.
+- Vor einem Pull Request `npm test` und `npm run build` ausführen.
+- Zugangsdaten und private Backend-Schlüssel niemals committen.
+- Bestehende Angular-, TypeScript- und SCSS-Konventionen im Projekt beibehalten.
+
+</details>
