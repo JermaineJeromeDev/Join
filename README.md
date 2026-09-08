@@ -9,6 +9,25 @@ Join ist eine webbasierte Aufgaben- und Kontaktverwaltung, die im Rahmen der Wei
 
 </details>
 
+## Table of Contents
+
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+  - [Application](#application)
+  - [Backend and data](#backend-and-data)
+  - [Development and quality](#development-and-quality)
+- [Prerequisites](#prerequisites)
+- [Installation and start](#installation-and-start)
+  - [Clone the repository](#1-clone-the-repository)
+  - [Install dependencies](#2-install-dependencies)
+  - [Start the development server](#3-start-the-development-server)
+  - [Use the application](#4-use-the-application)
+- [Available commands](#available-commands)
+- [Project structure](#project-structure)
+- [Routes](#routes)
+- [Build](#build)
+- [Contributing](#contributing)
+
 ## Features
 
 - User registration, login, logout, and protected areas
