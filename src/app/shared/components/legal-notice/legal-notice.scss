@@ -1,4 +1,5 @@
 @use '../../../../styles/abstracts/mixins' as *;
+@use '../../../../styles/base/base' as *;
 
 h2 {
     @include respond-to (sm) {
@@ -18,6 +19,18 @@ h2 {
     margin: 0;
   }
 
+  a {
+  color: var(--clr-blue-light);
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--clr-blue-dark);
+  }
+  &:active {
+    text-decoration: underline;
+  }
+}
 
 .legal-wrapper {
   max-width: var(--container-content-md);
