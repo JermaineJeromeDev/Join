@@ -1,0 +1,1 @@
+export const environment = { production: false, apiKey: 'sb_publishable_DhGAxSlxIiAG7WQ5Gj57Rg_nUXdrD4p', apiUrl: 'https://twgrmtxljgpfhvwipuiv.supabase.co' };
