@@ -7,7 +7,6 @@ import {
     Output,
     ViewChild,
     computed,
-    effect,
     inject,
     signal,
 } from '@angular/core';
@@ -57,32 +56,9 @@ export class ContactList implements OnInit {
   /** Signal capturing the currently highlighted or viewed entity in the list view. */
   public selectedContact = signal<UIContact | null>(null);
 
-  /** Caches temporary unique record keys to auto-trigger item selections upon asynchronous DB writes. */
-  private pendingCreatedContactId: number | null = null;
-
   /** Reference hook mapping the modular sub-overlay used for creating new entries. */
   @ViewChild(ContactAddNewContactDialog)
   public addContactDialog!: ContactAddNewContactDialog;
-
-  /**
-   * Initializes the reactive execution loop wrapper.
-   * Intercepts updates to local collection limits to auto-focus freshly generated entities.
-   */
-  constructor() {
-    effect(() => {
-      const rawContacts = this.contactsService.contacts();
-      
-      if (this.pendingCreatedContactId !== null && rawContacts && rawContacts.length > 0) {
-        const found = rawContacts.find(c => c.id === this.pendingCreatedContactId);
-        if (found) {
-          setTimeout(() => {
-            this.selectContact(found);
-            this.pendingCreatedContactId = null;
-          }, 0);
-        }
-      }
-    });
-  }
 
   /**
    * Triggers the internal presentation state change on the dialog child layout node.
@@ -116,11 +92,11 @@ export class ContactList implements OnInit {
   /**
    * Intercepts successful creation signals to schedule an automated focus action.
    * 
-   * @param {any} contact - The newly committed contact payload from dialog events.
+   * @param {Contact} contact - The newly committed contact payload from dialog events.
    */
-  public handleNewContactCreated(contact: any): void {
-    if (contact && typeof contact.id === 'number') {
-      this.pendingCreatedContactId = contact.id;
+  public handleNewContactCreated(contact: Contact): void {
+    if (typeof contact.id === 'number') {
+      this.selectContact(contact);
     }
   }
 

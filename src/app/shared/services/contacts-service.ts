@@ -33,15 +33,28 @@ export class contactsService {
    * Evaluates payload criteria and intercepts raw transaction faults during the persistence sequence.
    *
    * @param {Contact[]} contacts - Array matrix of contact entity payloads queued for remote insertion.
-   * @returns {Promise<any>} Deferred promise resolving the inserted data payload or undefined on network fault.
+   * @returns {Promise<Contact[]>} The inserted contacts returned by the database.
+   * @throws The Supabase error when the insert fails.
    */
-  async setContact(contacts: Contact[]) {
+  async setContact(contacts: Contact[]): Promise<Contact[]> {
     const { data, error } = await this.supabase.from('contacts').insert(contacts).select();
 
     if (error) {
       console.error('Contacts insert error', error);
-      return;
+      throw error;
     }
+
+    for (const contact of data) {
+      this.contacts.update((currentContacts) => {
+        const existingIndex = currentContacts.findIndex((current) => current.id === contact.id);
+        if (existingIndex === -1) {
+          return [...currentContacts, contact];
+        }
+
+        return currentContacts.map((current) => (current.id === contact.id ? contact : current));
+      });
+    }
+
     return data;
   }
 
@@ -129,7 +142,14 @@ export class contactsService {
    */
   handlePayload(payload: any) {
     if (payload.eventType === 'INSERT') {
-      this.contacts.update((contacts) => [...contacts, payload.new]);
+      this.contacts.update((contacts) => {
+        const existingIndex = contacts.findIndex((contact) => contact.id === payload.new.id);
+        if (existingIndex === -1) {
+          return [...contacts, payload.new];
+        }
+
+        return contacts.map((contact) => (contact.id === payload.new.id ? payload.new : contact));
+      });
     } else if (payload.eventType === 'UPDATE') {
       this.contacts.update((contacts) =>
         contacts.map((contact) => (contact.id === payload.new.id ? payload.new : contact)),

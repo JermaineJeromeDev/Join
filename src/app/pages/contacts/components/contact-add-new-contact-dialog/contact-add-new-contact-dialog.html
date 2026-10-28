@@ -130,6 +130,10 @@
 
 
         <div class="dialog__actions">
+          @if (saveError()) {
+          <p class="dialog__error" role="alert">{{ saveError() }}</p>
+          }
+
           <app-button class="dialog__actions__btn-icon hidden-lg" text="Cancel" variant="outline" size="md" width="auto"
             buttonType="button" fontWeight="regular" (btnClick)="closeDialog()">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

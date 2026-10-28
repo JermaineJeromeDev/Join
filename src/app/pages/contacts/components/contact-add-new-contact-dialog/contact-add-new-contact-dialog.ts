@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { LogoWhite } from '../../../../shared/components/logo-white/logo-white';
+import { Contact } from '../../../../shared/interfaces/contact';
 import { contactsService } from '../../../../shared/services/contacts-service';
 
 @Component({
@@ -29,8 +30,9 @@ export class ContactAddNewContactDialog {
 
   private contactsService = inject(contactsService);
 
-  @Output() contactCreated = new EventEmitter<any>();
+  @Output() contactCreated = new EventEmitter<Contact>();
 
+  saveError = signal<string | null>(null);
 
 showSuccessMessage = signal(false);
 
@@ -47,6 +49,7 @@ showSuccessMessage = signal(false);
   }
 
   resetForm() {
+    this.saveError.set(null);
     this.contactForm.reset({
       name: '',
       email: '',
@@ -60,33 +63,40 @@ showSuccessMessage = signal(false);
       return;
     }
 
-    const name = this.contactForm.controls.name.value!.trim();
-    const email = this.contactForm.controls.email.value!.trim();
-    const telephone = this.contactForm.controls.telephone.value!.replace(/\s/g, '');
+    this.saveError.set(null);
 
-    const [firstname, ...lastnameParts] = name.split(/\s+/);
+    try {
+      const name = this.contactForm.controls.name.value!.trim();
+      const email = this.contactForm.controls.email.value!.trim();
+      const telephone = this.contactForm.controls.telephone.value!.replace(/\s/g, '');
 
-    const newContact = {
-      firstname,
-      lastname: lastnameParts.join(' '),
-      email,
-      telephone,
-    };
+      const [firstname, ...lastnameParts] = name.split(/\s+/);
 
-    const savedData = await this.contactsService.setContact([newContact]);
+      const newContact = {
+        firstname,
+        lastname: lastnameParts.join(' '),
+        email,
+        telephone,
+      };
 
-    if (savedData && savedData.length > 0) {
+      const savedData = await this.contactsService.setContact([newContact]);
+      if (savedData.length === 0) {
+        throw new Error('The contact was not returned after saving.');
+      }
+
       this.contactCreated.emit(savedData[0]);
+      this.closeDialog();
+      this.showSuccessMessage.set(true);
+
+      setTimeout(() => {
+        this.showSuccessMessage.set(false);
+      }, 800);
+    } catch (error) {
+      console.error('Contact creation failed', error);
+      this.saveError.set(
+        error instanceof Error ? error.message : 'The contact could not be saved.',
+      );
     }
-    this.closeDialog();
-
-    /*Aufruf zeige mir das Fenster sucess Message*/
-
-    this.showSuccessMessage.set(true);
-
-setTimeout(() => {
-  this.showSuccessMessage.set(false);
-}, 800);
   }
 
   closeDialogBubbleProtection(event: Event) {
