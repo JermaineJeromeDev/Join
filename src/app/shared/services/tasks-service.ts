@@ -96,7 +96,17 @@ export class tasksService {
     const { error } = await this.supabase.from('tasks').update(task).eq('id', task.id);
     if (error) {
       console.error('Tasks update task error', error);
+      return;
     }
+
+    this.tasks.update((tasks) => {
+      const existingIndex = tasks.findIndex((currentTask) => currentTask.id === task.id);
+      if (existingIndex === -1) {
+        return [...tasks, task];
+      }
+
+      return tasks.map((currentTask) => (currentTask.id === task.id ? task : currentTask));
+    });
   }
 
   /**
