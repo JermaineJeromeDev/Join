@@ -169,6 +169,10 @@ app-add-task-detail-info {
     top: -0.35em;
 }
 
+.saveError {
+    color: var(--clr-feedback-error);
+}
+
 .border {
     height: 100%;
     width: 1px;

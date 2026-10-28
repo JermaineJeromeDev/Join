@@ -50,6 +50,7 @@ export class AddTask implements OnChanges, AfterViewInit, OnInit {
   private router = inject(Router);
 
   isSuccessMsgVisible = signal(false);
+  saveError = signal<string | null>(null);
 
   addTaskForm = new FormGroup({
     title: new FormControl('', {
@@ -118,6 +119,7 @@ export class AddTask implements OnChanges, AfterViewInit, OnInit {
 
   /** Resets the task form and clears local child component state. */
   clearTaskForm(): void {
+    this.saveError.set(null);
     this.addTaskForm.reset({
       title: '',
       description: '',
@@ -138,20 +140,29 @@ export class AddTask implements OnChanges, AfterViewInit, OnInit {
       return;
     }
 
+    this.saveError.set(null);
     const taskPayload = this.mapFormToTaskPayload();
 
-    if (this.task?.id) {
-      await this.tasksService.updateTask({
-        ...taskPayload,
-        id: this.task.id,
-      });
-    } else {
-      await this.tasksService.setTask([taskPayload]);
-    }
+    try {
+      if (this.task?.id) {
+        await this.tasksService.updateTask({
+          ...taskPayload,
+          id: this.task.id,
+        });
+      } else {
+        const savedTasks = await this.tasksService.setTask([taskPayload]);
+        if (savedTasks.length === 0) {
+          throw new Error('The task was not returned after saving.');
+        }
+      }
 
-    this.clearTaskForm();
-    this.showSuccessMessage();
-    this.taskSaved.emit();
+      this.clearTaskForm();
+      this.showSuccessMessage();
+      this.taskSaved.emit();
+    } catch (error) {
+      console.error('Task creation failed', error);
+      this.saveError.set(error instanceof Error ? error.message : 'The task could not be saved.');
+    }
   }
 
   /** Patches the selected edit task into the reactive form. */

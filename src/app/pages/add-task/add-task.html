@@ -20,6 +20,9 @@
         <div class="addTaskLayout__content__footer">
             <p><span class="requiredInput">*</span>This field is required</p>
 
+            @if (saveError()) {
+            <p class="saveError" role="alert">{{ saveError() }}</p>
+            }
 
             @if(!task) {
             <div class="addTaskLayout__content__footer__buttons">
