@@ -33,15 +33,28 @@ export class tasksService {
    * Evaluates payload criteria and intercepts raw transaction faults during the persistence sequence.
    *
    * @param {Task[]} tasks - Array matrix of task entity payloads queued for remote insertion.
-   * @returns {Promise<any>} Deferred promise resolving the inserted data payload or undefined on network fault.
+   * @returns {Promise<Task[]>} The inserted tasks returned by the database.
+   * @throws The Supabase error when the insert fails.
    */
-  async setTask(tasks: Task[]) {
+  async setTask(tasks: Task[]): Promise<Task[]> {
     const { data, error } = await this.supabase.from('tasks').insert(tasks).select();
 
     if (error) {
       console.error('Tasks insert error', error);
-      return;
+      throw error;
     }
+
+    for (const task of data) {
+      this.tasks.update((currentTasks) => {
+        const existingIndex = currentTasks.findIndex((current) => current.id === task.id);
+        if (existingIndex === -1) {
+          return [...currentTasks, task];
+        }
+
+        return currentTasks.map((current) => (current.id === task.id ? task : current));
+      });
+    }
+
     return data;
   }
 
@@ -119,7 +132,14 @@ export class tasksService {
    */
   handlePayload(payload: any) {
     if (payload.eventType === 'INSERT') {
-      this.tasks.update((tasks) => [...tasks, payload.new]);
+      this.tasks.update((tasks) => {
+        const existingIndex = tasks.findIndex((task) => task.id === payload.new.id);
+        if (existingIndex === -1) {
+          return [...tasks, payload.new];
+        }
+
+        return tasks.map((task) => (task.id === payload.new.id ? payload.new : task));
+      });
     } else if (payload.eventType === 'UPDATE') {
       this.tasks.update((tasks) =>
         tasks.map((task) => (task.id === payload.new.id ? payload.new : task)),
