@@ -106,7 +106,14 @@ export class contactsService {
 
     if (error) {
       console.error('Contacts update contact error', error);
+      throw error;
     }
+
+    this.contacts.update((contacts) =>
+      contacts.map((currentContact) =>
+        currentContact.id === contact.id ? { ...currentContact, ...updateData } : currentContact,
+      ),
+    );
   }
 
   /**
@@ -115,7 +122,13 @@ export class contactsService {
    * @param {number} id - The unique numerical index resolving to the contact entity targeted for destruction.
    */
   async deleteContact(id: number) {
-    const response = await this.supabase.from('contacts').delete().eq('id', id);
+    const { error } = await this.supabase.from('contacts').delete().eq('id', id);
+    if (error) {
+      console.error('Contacts delete contact error', error);
+      throw error;
+    }
+
+    this.contacts.update((contacts) => contacts.filter((contact) => contact.id !== id));
   }
 
   /**
