@@ -1,7 +1,7 @@
-import { Injectable, signal } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { createClient, RealtimeChannel } from '@supabase/supabase-js';
+import { inject, Injectable, signal } from '@angular/core';
+import { RealtimeChannel } from '@supabase/supabase-js';
 import { Contact } from '../interfaces/contact';
+import { SupabaseService } from './supabase-service';
 
 /**
  * Injectable service singleton orchestrating CRUD operations and real-time state synchronization for contact entities.
@@ -14,7 +14,7 @@ export class contactsService {
   /**
    * Instantiated Supabase client node establishing the secure network connection mapped to the backend database architecture.
    */
-  supabase = createClient(environment.apiUrl, environment.apiKey);
+  supabase = inject(SupabaseService).client;
 
   /**
    * Reactive signal stream maintaining the global memory cache of contact view models.

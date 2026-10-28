@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
+import { SupabaseClient } from '@supabase/supabase-js';
+import { SupabaseService } from './supabase-service';
 
 /**
  * Injectable service singleton orchestrating the global authentication lifecycle and remote authorization handshakes.
@@ -28,8 +28,11 @@ export class AuthService {
    *
    * @param {Router} router - Core Angular routing layer for programmatic navigation dispatch.
    */
-  constructor(private router: Router) {
-    this.dB = createClient(environment.apiUrl, environment.apiKey);
+  constructor(
+    private router: Router,
+    supabaseService: SupabaseService,
+  ) {
+    this.dB = supabaseService.client;
 
     // Keep local auth flag in sync with Supabase auth state to avoid
     // false negatives during initial reload/login restoration.
